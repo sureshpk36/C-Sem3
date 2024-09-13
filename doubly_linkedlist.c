@@ -14,21 +14,28 @@ void insert_at_beg() {
     struct node *newnode = (struct node *)malloc(sizeof(struct node));
     int num;
 
+    if (newnode == NULL) {  // Check if memory allocation failed
+        printf("Memory allocation failed\n");
+        return;
+    }
+
     printf("Enter num:\n");
     scanf("%d", &num);
     
     newnode->data = num;
-    newnode->next = NULL;
-    newnode->prev = NULL;
+    
 
     if (head == NULL) {  // If the list is empty
         head = tail = newnode;
+        newnode->next = NULL; 
+        newnode->prev = NULL;
     } else {  // If the list already has elements
         newnode->next = head;
         head->prev = newnode;
         head = newnode;
     }
 }
+
 
 void displayF(){
     struct node *temp=head;
