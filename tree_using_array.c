@@ -6,10 +6,10 @@ int tree[MAX];  // Global array to represent the tree
 
 // Insert a node in the tree using pointers
 void insert(int value, int index) {
-    if (index != MAX - 1) {  // Change condition here
+    if (index >= 0 && index < MAX) {  // Check if index is within bounds
         tree[index] = value;
     } else {
-        printf("Cannot insert at the last index\n");
+        printf("Cannot insert, index out of bounds\n");
     }
 }
 
