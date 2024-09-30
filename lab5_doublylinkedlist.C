@@ -1,132 +1,174 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct Node {
-    int info;
-    struct Node *rlink, *llink;
-} *lfirst = NULL, *rfirst = NULL;
 
-void create() {
-    int N;
-    printf("Enter N: ");
-    scanf("%d", &N);
+struct node{
+    int data;
+    struct node *next;
+    struct node *prev;
+};
+struct node *head =NULL;
+struct node *tail =NULL;
+
+void insert_at_beg() {
+    struct node *newnode = (struct node *)malloc(sizeof(struct node));
+    int num;
+
+    if (newnode == NULL) {  // Check if memory allocation failed
+        printf("Memory allocation failed\n");
+        return;
+    }
+
+    printf("Enter num:\n");
+    scanf("%d", &num);
     
-    struct Node *ptr = (struct Node *)malloc(sizeof(struct Node));
-    printf("Enter info for first node: ");
-    scanf("%d", &ptr->info);
-    ptr->rlink = ptr->llink = NULL;
-    lfirst = rfirst = ptr;
+    newnode->data = num;
+    
 
-    for (int i = 1; i < N; i++) {
-        struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
-        printf("Enter info for node %d: ", i + 1);
-        scanf("%d", &newNode->info);
-        newNode->llink = rfirst;
-        newNode->rlink = NULL;
-        rfirst->rlink = newNode;
-        rfirst = newNode;
+    if (head == NULL) {  // If the list is empty
+        head = tail = newnode;
+        newnode->next = NULL; 
+        newnode->prev = NULL;
+    } else {  // If the list already has elements
+        newnode->next = head;
+        head->prev = newnode;
+        head = newnode;
     }
 }
 
-void Rtraverse() {
-    for (struct Node *ptr = rfirst; ptr; ptr = ptr->llink)
-        printf("%d\n", ptr->info);
+
+void displayF(){
+    struct node *temp=head;
+    while(temp!=NULL){
+        printf("%d ",temp->data);
+        temp=temp->next;
+    }
+    printf("\n");
 }
 
-void Ltraverse() {
-    for (struct Node *ptr = lfirst; ptr; ptr = ptr->rlink)
-        printf("%d\n", ptr->info);
+void displayR(){
+    struct node *temp=tail;
+    while(temp!=NULL){
+        printf("%d ",temp->data);
+        temp=temp->prev;
+    } 
+    printf("\n");
 }
 
-void Insert_at_Left() {
-    struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
-    printf("Enter info for new node: ");
-    scanf("%d", &newNode->info);
-    newNode->llink = NULL;
-    newNode->rlink = lfirst;
-    lfirst->llink = newNode;
-    lfirst = newNode;
-}
-
-void Insert_at_Right() {
-    struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
-    printf("Enter info for new node: ");
-    scanf("%d", &newNode->info);
-    newNode->rlink = NULL;
-    newNode->llink = rfirst;
-    rfirst->rlink = newNode;
-    rfirst = newNode;
-}
-
-void Insert_after_a_node() {
-    int item;
-    printf("Enter the item after which to insert: ");
-    scanf("%d", &item);
-    struct Node *ptr = lfirst;
-    while (ptr && ptr->info != item)
-        ptr = ptr->rlink;
-    if (!ptr) return;
-    struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
-    printf("Enter info for new node: ");
-    scanf("%d", &newNode->info);
-    newNode->rlink = ptr->rlink;
-    if (ptr->rlink) ptr->rlink->llink = newNode;
-    ptr->rlink = newNode;
-    newNode->llink = ptr;
-    if (!newNode->rlink) rfirst = newNode;
-}
-
-void Delete_at_Left() {
-    struct Node *ptr = lfirst;
-    if (!ptr) return;
-    lfirst = lfirst->rlink;
-    if (lfirst) lfirst->llink = NULL;
-    free(ptr);
-    if (!lfirst) rfirst = NULL;
-}
-
-void Delete_at_Right() {
-    struct Node *ptr = rfirst;
-    if (!ptr) return;
-    rfirst = rfirst->llink;
-    if (rfirst) rfirst->rlink = NULL;
-    free(ptr);
-    if (!rfirst) lfirst = NULL;
-}
-
-void Delete_after_a_Node() {
-    int item;
-    printf("Enter the item after which to delete: ");
-    scanf("%d", &item);
-    struct Node *ptr = lfirst;
-    while (ptr && ptr->rlink && ptr->info != item)
-        ptr = ptr->rlink;
-    if (!ptr || !ptr->rlink) return;
-    struct Node *save = ptr->rlink;
-    ptr->rlink = save->rlink;
-    if (save->rlink) save->rlink->llink = ptr;
-    free(save);
-    if (!ptr->rlink) rfirst = ptr;
-}
-
-int main() {
-    int choice;
-    do {
-        printf("Enter your choice:\n1. Create\n2. Traverse Right\n3. Traverse Left\n4. Insert at Left\n5. Insert at Right\n6. Insert after Node\n7. Delete at Left\n8. Delete at Right\n9. Delete after Node\n10. Exit\n");
-        scanf("%d", &choice);
-        switch (choice) {
-            case 1: create(); break;
-            case 2: Rtraverse(); break;
-            case 3: Ltraverse(); break;
-            case 4: Insert_at_Left(); break;
-            case 5: Insert_at_Right(); break;
-            case 6: Insert_after_a_node(); break;
-            case 7: Delete_at_Left(); break;
-            case 8: Delete_at_Right(); break;
-            case 9: Delete_after_a_Node(); break;
-            case 10: exit(0);
-            default: printf("Wrong choice\n");
+void insert_at_pos(){
+    int pos,num;
+    printf("enter pos - starts with 0:");
+    scanf("%d",&pos);
+    printf("enter num:");
+    scanf("%d",&num);
+    if (pos==0){
+        insert_at_beg();
+    }
+    else{
+        struct node *temp=head;
+        struct node *newnode=(struct node *)malloc(sizeof(struct node));
+        for(int i=0;i<pos-1;i++){
+            temp=temp->next;
+                if(temp==NULL){
+                    return;
+                }
         }
-    } while (choice != 10);
-    return 0;
+        newnode->data=num;
+        newnode->prev=temp;
+        newnode->next=temp->next;
+        temp->next=newnode;
+        temp->next->prev=newnode;
+    
+
+    }
+}
+
+void insert_at_end(){
+    int num;
+    printf("enter num:");
+    scanf("%d",&num);
+    struct node *temp=head;
+    struct node *newnode=(struct node *)malloc(sizeof(struct node));
+    while(temp->next!=NULL){
+        temp=temp->next;
+    }
+    newnode->data=num;
+    newnode->next=NULL;
+    newnode->prev=temp;
+    temp->next=newnode;
+    tail=newnode; 
+}
+
+void delete_at_beg(){
+
+    struct node *temp=head;
+
+    if (head == NULL) {  // Check if the list is empty
+        printf("List is empty!\n");
+        return;
+    }
+
+    if (head->next == NULL) {  // If there's only one node
+        head = tail = NULL;
+        free(temp);
+        return;
+    }
+
+    temp->next->prev=NULL;
+    head=temp->next;
+    free(temp);
+
+}
+
+void delete_at_pos(){
+    int pos;
+        printf("enter pos:");
+        scanf("%d",&pos);
+
+    struct node *temp=head;
+    struct node *prev=NULL;
+    for(int i=0;i<pos-1;i++){
+        prev=temp;
+        temp=temp->next;
+        if(temp==NULL){
+            printf("Invalid \n");
+            return;
+        }
+    }
+    prev->next=temp->next;
+    temp->next->prev=prev;
+    free(temp);
+}
+
+void delete_at_end(){
+    struct node *temp=head;
+    struct node *prev=NULL;
+    while(temp->next!=NULL){
+        prev=temp;
+        temp=temp->next;
+    }
+    prev->next=NULL;
+    free(temp);
+    tail=prev;
+}
+
+int main(){
+    insert_at_beg();
+    insert_at_beg();
+    insert_at_beg();
+    insert_at_beg();
+    displayF();
+    displayR();
+    insert_at_pos();
+    displayF();
+    insert_at_end();
+    displayF();
+    delete_at_beg();
+    displayF();
+    delete_at_pos();
+    displayF();
+    delete_at_end();
+    displayF();
+
+
 }
