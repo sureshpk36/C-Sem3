@@ -6,7 +6,7 @@ int tree[MAX_SIZE];
 int size = 0;
 
 void add(int value) {
-    if (size < MAX_SIZE) {
+    if (size != MAX_SIZE) {
         tree[size] = value;
         size++;
     } else {
