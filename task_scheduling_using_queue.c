@@ -1,37 +1,31 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
 #define MAX 4
 
-typedef struct {
+struct Task {
     char name[20];
-} Task;
+};
 
-typedef struct {
-    Task tasks[MAX];
-    int front;
-    int rear;
-} Queue;
+struct Queue {
+    struct Task tasks[MAX];
+    int front, rear;
+};
 
-void Enqueue(Queue *q, Task task) {
+void Enqueue(struct Queue *q, struct Task task) {
     if (q->rear < MAX - 1) {
         q->tasks[++q->rear] = task;
-        if (q->front == -1) {
-            q->front = 0;
-        }
+        if (q->front == -1) q->front = 0;
     } else {
         printf("Queue is full\n");
     }
 }
 
-Task Dequeue(Queue *q) {
-    Task task = {"Empty"};
+struct Task Dequeue(struct Queue *q) {
+    struct Task task = {"Empty"};
     if (q->front != -1) {
         task = q->tasks[q->front++];
-        if (q->front > q->rear) {
-            q->front = q->rear = -1; // Reset queue when empty
-        }
+        if (q->front > q->rear) q->front = q->rear = -1;
     } else {
         printf("Queue is empty\n");
     }
@@ -39,13 +33,13 @@ Task Dequeue(Queue *q) {
 }
 
 int main() {
-    Queue q = {.front = -1, .rear = -1};
-
-    Enqueue(&q, (Task){"Task 1"});
-    Enqueue(&q, (Task){"Task 2"});
+    struct Queue q = {-1, -1};
+    
+    Enqueue(&q, (struct Task){"Task 1"});
+    Enqueue(&q, (struct Task){"Task 2"});
 
     for (int i = 0; i < 2; i++) {
-        Task task = Dequeue(&q);
+        struct Task task = Dequeue(&q);
         printf("Executing: %s\n", task.name);
     }
 
