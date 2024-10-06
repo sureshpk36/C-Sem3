@@ -1,42 +1,64 @@
 #include <stdio.h>
 
-#define MAX 15  // Maximum number of nodes in the tree
+#define MAX_SIZE 100
 
-int tree[MAX];  // Global array to represent the tree
+int tree[MAX_SIZE];
+int size = 0;
 
-// Insert a node in the tree using pointers
-void insert(int value, int index) {
-    if (index >= 0 && index < MAX) {  // Check if index is within bounds
-        tree[index] = value;
+void add(int value) {
+    if (size < MAX_SIZE) {
+        tree[size] = value;
+        size++;
     } else {
-        printf("Cannot insert, index out of bounds\n");
+        printf("Tree is full\n");
     }
 }
 
-// Display the tree in an array format
-void display(int size) {
-    for (int i = 0; i < size; i++) {
-        if (tree[i] != -1) {
-            printf("Node at index %d: %d\n", i, tree[i]);
-        }
+int getLeftChild(int i) {
+    int leftChildIndex = 2 * i + 1;
+    if (leftChildIndex < size) {
+        return tree[leftChildIndex];
     }
+    return -1;
+}
+
+int getRightChild(int i) {
+    int rightChildIndex = 2 * i + 2;
+    if (rightChildIndex < size) {
+        return tree[rightChildIndex];
+    }
+    return -1;
+}
+
+int getParent(int i) {
+    if (i == 0) {
+        return -1;
+    }
+    int parentIndex = (i - 1) / 2;
+    return tree[parentIndex];
+}
+
+void printTree() {
+    for (int i = 0; i < size; i++) {
+        printf("%d ", tree[i]);
+    }
+    printf("\n");
 }
 
 int main() {
-    // Initialize all elements to -1 (indicating an empty node)
-    for (int i = 0; i < MAX; i++) {
-        tree[i] = -1;
-    }
+    add(10);
+    add(20);
+    add(30);
+    add(40);
+    add(50);
+    add(60);
 
-    // Insert nodes into the tree
-    insert(10, 0);  // Root node
-    insert(20, 1);  // Left child of root
-    insert(30, 2);  // Right child of root
-    insert(40, 3);  // Left child of node at index 1
-    insert(50, 4);  // Right child of node at index 1
-    
-    // Display the tree
-    display(MAX);
+    printf("Binary Tree: ");
+    printTree();
+
+    printf("Left child of node 0: %d\n", getLeftChild(0));
+    printf("Right child of node 0: %d\n", getRightChild(0));
+    printf("Parent of node 2: %d\n", getParent(2));
 
     return 0;
 }
