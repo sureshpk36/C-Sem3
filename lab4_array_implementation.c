@@ -1,4 +1,99 @@
 #include <stdio.h>
+#define MAX_SIZE 50
+
+int arr[MAX_SIZE];
+int size = -1;  // Initialize as -1 to indicate the array is empty
+
+void display() {
+    if (size == -1) {  // Array is empty when size is -1
+        printf("Array is empty\n");
+        return;
+    }
+    printf("Array elements: ");
+    for (int i = 0; i <= size; i++) // Loop from 0 to size
+        printf("%d\t", arr[i]);
+    printf("\n");
+}
+
+void insertAtPos(int pos, int val) {
+    if (size == MAX_SIZE - 1) {  // Adjust condition for MAX_SIZE
+        printf("Array is full\n");
+        return;
+    }
+    if (pos < 0 || pos > size + 1) {  // Adjust position check
+        printf("Invalid position\n");
+        return;
+    }
+
+    for (int i = size; i >= pos; i--) {  // Adjust loop range
+        arr[i + 1] = arr[i];
+    }
+
+    arr[pos] = val;
+    size++;  // Increment size after insertion
+    printf("Inserted %d at pos %d\n", val, pos);
+}
+
+void deleteFromPos(int pos) {
+    if (size == -1) {  // Array is empty when size is -1
+        printf("Array is empty\n");
+        return;
+    }
+    if (pos < 0 || pos > size) {
+        printf("Invalid position\n");
+        return;
+    }
+
+    int del = arr[pos];
+    for (int i = pos; i < size; i++) {
+        arr[i] = arr[i + 1];
+    }
+    size--;  // Decrement size after deletion
+    printf("Deleted %d at pos %d\n", del, pos);
+}
+
+void searchElement(int val) {
+    for (int i = 0; i <= size; i++) {  // Adjust loop range
+        if (arr[i] == val) {
+            printf("Element %d found at position %d\n", val, i);
+            return;
+        }
+    }
+    printf("Element %d not found\n", val);
+}
+
+int main() {
+    insertAtPos(0, 10);
+    insertAtPos(1, 20);
+    insertAtPos(2, 30);
+    display();
+
+    deleteFromPos(1);
+    display();
+
+    searchElement(30);
+    searchElement(50);
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+    
+
+
+
+
+#include <stdio.h>
 
 int main()
 {
