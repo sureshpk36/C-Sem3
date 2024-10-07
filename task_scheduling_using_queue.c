@@ -12,7 +12,8 @@ void Enqueue(struct Queue* q, const char* task) {
     if (q->rear < MAX - 1) {
         q->rear++; // Increment rear first
         strcpy(q->tasks[q->rear], task); // Copy the task
-        if (q->front == -1) q->front = 0; // Set front if it's the first task
+        if (q->front == -1){
+             q->front = 0;}// Set front if it's the first task
     } else {
         printf("Queue is full\n");
     }
@@ -21,7 +22,8 @@ void Enqueue(struct Queue* q, const char* task) {
 void Dequeue(struct Queue* q) {
     if (q->front != -1) {
         printf("Executing: %s\n", q->tasks[q->front++]); // Execute the task
-        if (q->front > q->rear) q->front = q->rear = -1; // Reset when queue is empty
+        if (q->front > q->rear){
+             q->front = q->rear = -1;} // Reset when queue is empty
     } else {
         printf("Queue is empty\n");
     }
