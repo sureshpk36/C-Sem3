@@ -16,11 +16,16 @@ int isEmpty(Stack* s) {
 }
 
 void push(Stack* s, int value) {
-    s->arr[++(s->top)] = value; // Push a value onto the stack
+    s->top++; // Increment top first
+    s->arr[s->top] = value; // Then assign the value to the array
 }
 
+
 int pop(Stack* s) {
-    return s->arr[(s->top)--]; // Pop a value from the stack
+    // Retrieve the value at the top of the stack
+    int value = s->arr[s->top];
+    s->top--;
+    return value;
 }
 
 void moveDisk(char fromRod, char toRod, int disk) {
