@@ -8,16 +8,15 @@ typedef struct Stack {
 } Stack;
 
 void initStack(Stack* s) {
-    s->top = -1; // Initialize an empty stack
+    s->top = -1; 
 }
 
 void push(Stack* s, int value) {
-    s->top++; // Increment top first
-    s->arr[s->top] = value; // Then assign the value to the array
+    s->top++;
+    s->arr[s->top] = value; 
 }
 
 int pop(Stack* s) {
-    // Retrieve the value at the top of the stack
     int value = s->arr[s->top];
     s->top--;
     return value;
@@ -27,8 +26,17 @@ void move(Stack* src, Stack* dest) {
     int disk = pop(src); // Pop the top disk from source
     push(dest, disk); // Push it onto the destination stack
 
-    // Print the move directly in the move function
-    printf("Move disk %d from rod S to rod D\n", disk); // Adjust according to your desired output
+    printf("Move disk %d from rod S to rod D\n", disk);
+}
+
+void towerOfHanoi(int n, Stack* src, Stack* dest, Stack* aux) {
+    if (n == 1) {
+        move(src, dest); // Move disk from source to destination
+        return;
+    }
+    towerOfHanoi(n - 1, src, aux, dest); // Move n-1 disks from src to aux
+    move(src, dest); // Move the nth disk from src to dest
+    towerOfHanoi(n - 1, aux, dest, src); // Move n-1 disks from aux to dest
 }
 
 int main() {
@@ -47,10 +55,8 @@ int main() {
         push(&src, i); // Push disk 1, 2, ..., num_of_disks
     }
 
-    // Move disks from src to dest
-    for (int i = num_of_disks; i > 0; i--) {
-        move(&src, &dest); // Move all disks from source to destination
-    }
+    // Solve the Tower of Hanoi
+    towerOfHanoi(num_of_disks, &src, &dest, &aux); // Move disks from src to dest using aux
 
     return 0;
 }
