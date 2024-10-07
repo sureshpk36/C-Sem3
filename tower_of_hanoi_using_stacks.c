@@ -11,10 +11,6 @@ void initStack(Stack* s) {
     s->top = -1; // Initialize an empty stack
 }
 
-int isEmpty(Stack* s) {
-    return s->top == -1; // Check if stack is empty
-}
-
 void push(Stack* s, int value) {
     s->top++; // Increment top first
     s->arr[s->top] = value; // Then assign the value to the array
