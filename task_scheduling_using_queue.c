@@ -10,7 +10,7 @@ struct Queue {
 
 void Enqueue(struct Queue* q, const char* task) {
     if (q->rear < MAX - 1) {
-        q->tasks[++q->rear]; // Increment rear first
+        q->rear++; // Increment rear first
         strcpy(q->tasks[q->rear], task); // Copy the task
         if (q->front == -1) q->front = 0; // Set front if it's the first task
     } else {
