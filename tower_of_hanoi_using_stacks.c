@@ -20,7 +20,6 @@ void push(Stack* s, int value) {
     s->arr[s->top] = value; // Then assign the value to the array
 }
 
-
 int pop(Stack* s) {
     // Retrieve the value at the top of the stack
     int value = s->arr[s->top];
@@ -28,21 +27,19 @@ int pop(Stack* s) {
     return value;
 }
 
-void moveDisk(char fromRod, char toRod, int disk) {
-    printf("Move disk %d from rod %c to rod %c\n", disk, fromRod, toRod); // Show disk movement
-}
+void move(Stack* src, Stack* dest) {
+    int disk = pop(src); // Pop the top disk from source
+    push(dest, disk); // Push it onto the destination stack
 
-void move(Stack* src, Stack* dest, char s, char d) {
-    int disk = pop(src);     // Pop the top disk from source
-    push(dest, disk);        // Push it onto the destination stack
-    moveDisk(s, d, disk);    // Print the move
+    // Print the move directly in the move function
+    printf("Move disk %d from rod S to rod D\n", disk); // Adjust according to your desired output
 }
 
 int main() {
     Stack src, aux, dest;
     int num_of_disks;
 
-    initStack(&src);   // Initialize all stacks
+    initStack(&src); // Initialize all stacks
     initStack(&aux);
     initStack(&dest);
 
@@ -56,7 +53,7 @@ int main() {
 
     // Move disks from src to dest
     for (int i = num_of_disks; i > 0; i--) {
-        move(&src, &dest, 'S', 'D'); // Move all disks from source to destination
+        move(&src, &dest); // Move all disks from source to destination
     }
 
     return 0;
