@@ -12,8 +12,9 @@ struct node *create() {
     printf("Enter data (-1 for no node): ");
     scanf("%d", &x);
 
-    if (x == -1)
-        return NULL;
+    if (x == -1){
+        return 0;
+    };
 
     newnode = (struct node*) malloc(sizeof(struct node));
     newnode->data = x;
